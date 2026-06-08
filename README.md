@@ -1,118 +1,236 @@
-# Social-Media-Analysis
+# Social Media Network Analysis
 
-A command-line social network analyser built in C++ using core graph theory
-algorithms — BFS, DFS, and Dijkstra — to model user connections, detect
-influencers, find mutual friends, and compute shortest paths across a 500+ user
-network loaded from CSV files.
+A C++ application that models and analyzes a social media network using Graph Theory and Data Structures & Algorithms (DSA). The project supports user profile management, friend connections, network traversal, shortest-path analysis, influencer ranking, friend recommendations, community detection, and report generation.
 
 ---
 
 ## Features
 
-- Load network from CSV files (users + weighted connections)
-- Auto-generates a 520-user, 1800-edge dataset if no CSV files are found
-- BFS — level-wise traversal, hop-count shortest path, 2-hop reach scoring
-- DFS — deep network traversal, connected community detection
-- Dijkstra — weighted shortest path using a min-heap priority queue
-- Influencer scoring — degree + 2-hop reach + follower count combined
-- Mutual friends between any two users
-- Friend suggestions based on 2nd-degree connections
-- Connected component analysis
-- Graph statistics — density, average degree, largest component
-- Save full analysis report to a .txt file
-- Interactive CLI with 12 query options
-- Color-coded terminal output
+### User & Network Management
+- Load users from CSV files
+- Load friendships/connections from CSV files
+- Search users by:
+  - User ID
+  - Exact name
+  - Partial name matching
+- Display detailed user profiles
+
+### Graph Algorithms
+
+#### Breadth-First Search (BFS)
+- Explore network connections by degree
+- Find shortest path based on hop count
+
+#### Depth-First Search (DFS)
+- Traverse deeply connected regions
+- Explore communities and network structure
+
+#### Dijkstra's Algorithm
+- Compute weighted shortest paths
+- Support relationship strength via edge weights
+
+### Social Network Analysis
+- Mutual friend detection
+- Friend recommendation system
+- Connected component (community) analysis
+- Graph statistics:
+  - Number of users
+  - Number of connections
+  - Average degree
+  - Graph density
+  - Largest connected community
+
+### Influencer Analytics
+Custom influencer scoring based on:
+- Number of direct connections
+- Reachability within two hops
+- Follower count
+
+Generates rankings of top influencers in the network.
+
+### Reporting
+Export network analysis reports containing:
+- Graph summary
+- Top influencers
+- Community statistics
+- Connected component information
+
+---
+
+## Technologies Used
+
+- C++14
+- Graph Theory
+- BFS (Breadth-First Search)
+- DFS (Depth-First Search)
+- Dijkstra's Algorithm
+- STL Containers
+  - vector
+  - unordered_map
+  - unordered_set
+  - queue
+  - stack
+  - priority_queue
+- File Handling (CSV I/O)
 
 ---
 
 ## Project Structure
 
-DSA_Project/
-│
-├── social_network.cpp     # Full source code
-├── users.csv              # Auto-generated user dataset (520 users)
-├── edges.csv              # Auto-generated connections (1800 edges)
-├── report.txt             # Output report (generated on demand)
+```text
+.
+├── Project1.cpp
+├── users.csv
+├── edges.csv
+├── report.txt
 └── README.md
+```
 
-## Usage
+### User Dataset Format (users.csv)
 
-On first run, if `users.csv` and `edges.csv` are not present in the same
-folder as the executable, the program automatically generates them with
-520 users and 1800 weighted connections.
-╔══════════════════════════════════════════════════╗
-║     Social Media Network Analyser  v1.0          ║
-║     C++ | Graph Theory | BFS | DFS | Dijkstra   ║
-╚══════════════════════════════════════════════════╝
-┌─ MENU ───────────────────────────────────────┐
-│  1.  Search user profile                     │
-│  2.  List all friends of a user              │
-│  3.  Find mutual friends (two users)         │
-│  4.  BFS — connections by degree             │
-│  5.  DFS — deep network traversal            │
-│  6.  Shortest path — BFS (hop count)         │
-│  7.  Shortest path — Dijkstra (weighted)     │
-│  8.  Top influencers                         │
-│  9.  Friend suggestions                      │
-│  10. Community / component analysis          │
-│  11. Graph statistics                        │
-│  12. Save analysis report                    │
-│  0.  Exit                                    │
-└──────────────────────────────────────────────┘
----
-
-## CSV Format
-
-If you want to load your own data, create these two files in the same
-folder as the executable:
-
-**users.csv**
+```csv
 id,name,location,age,interest,followers
 1,Aarav_1,Mumbai,24,Technology,1200
-2,Priya_2,Delhi,29,Music,850
+2,Priya_2,Delhi,28,Music,950
+```
 
-**edges.csv**
+### Edge Dataset Format (edges.csv)
+
+```csv
 from_id,to_id,weight
-1,2,7
-2,3,4
+1,2,4
+2,5,2
+3,4,8
+```
 
-Weight represents relationship strength on a scale of 1–10.
+## Installation
+
+### Prerequisites
+
+- GCC 6.x or later
+- Any C++14 compatible compiler
+
+## Menu Options
+
+```text
+1. Search user profile
+2. List all friends of a user
+3. Find mutual friends
+4. BFS - connections by degree
+5. DFS - deep network traversal
+6. Shortest path (BFS)
+7. Shortest path (Dijkstra)
+8. Top influencers
+9. Friend suggestions
+10. Community analysis
+11. Graph statistics
+12. Save analysis report
+0. Exit
+```
 
 ---
 
-## Algorithms
+## Core Algorithms
 
-| Algorithm | Time Complexity | Use in this project |
-|-----------|----------------|---------------------|
-| BFS | O(V + E) | Shortest path by hops, level-wise connections, 2-hop reach |
-| DFS | O(V + E) | Deep traversal, connected component detection |
-| Dijkstra | O((V + E) log V) | Weighted shortest path via min-heap priority queue |
-
----
-
-## Influencer Score
-
-Each user is scored using a weighted formula:
-score = degree × 0.4  +  2-hop reach × 0.4  +  (followers / 100) × 0.2
-- **degree** — number of direct connections
-- **2-hop reach** — number of users reachable within 2 connections via BFS
-- **followers** — normalised follower count from the dataset
+| Algorithm | Purpose |
+|------------|----------|
+| BFS | Network traversal and shortest path by hops |
+| DFS | Deep graph exploration |
+| Dijkstra | Weighted shortest path |
+| Connected Components | Community detection |
+| Friend Recommendation | Friends-of-friends analysis |
+| Influencer Ranking | Network influence estimation |
 
 ---
 
-## Sample Output
+## Influencer Score Formula
+
+```text
+Influence Score =
+0.4 × Degree +
+0.4 × ReachWithin2Hops +
+0.2 × (Followers / 100)
+```
+
+Where:
+
+- Degree = Number of direct connections
+- ReachWithin2Hops = Number of users reachable within two levels
+- Followers = User follower count from dataset
+
+---
+
+## Sample Workflow
+
+1. Start the application.
+2. Load users.csv and edges.csv.
+3. Search for a user profile.
+4. Explore friends and mutual connections.
+5. Find shortest paths between users.
+6. View influencer rankings.
+7. Analyze communities.
+8. Export a report.
+
+If dataset files are missing, the application automatically generates:
+
+- 520 sample users
+- 1800 sample connections
+
+---
+
+## Example Output
+
+```text
 Graph Statistics
-─────────────────────────────────────
+
 Users (nodes)   : 520
 Connections     : 1800
-Graph density   : 0.0133
-Avg degree      : 6.92
-Most connected  : Rahul_47  (degree 18)
+Graph Density   : 0.0134
+Average Degree  : 6.92
+Most Connected  : Rahul_102
 Components      : 1
-Largest comp.   : 520 users
-Top 3 Influencers:
-Rank  Name                Score       Degree   Followers
-──────────────────────────────────────────────────────
-1     Rahul_47            38.40       18       4821
-2     Priya_12            35.60       16       4103
-3     Aarav_203           33.20       15       3950
+Largest Component : 520 users
+```
+
+## Key Concepts Demonstrated
+
+- Graph Representation using Adjacency Lists
+- Breadth-First Search (BFS)
+- Depth-First Search (DFS)
+- Dijkstra's Shortest Path Algorithm
+- Community Detection
+- Friend Recommendation Systems
+- Network Influence Analysis
+- CSV Data Processing
+- File Input/Output Operations
+- Command Line Interface (CLI) Design
+
+---
+
+## Future Enhancements
+
+- Graph visualization support
+- PageRank-based influencer ranking
+- Dynamic addition/removal of users
+- Directed graph support
+- Real social media datasets
+- GUI version using Qt
+- Database integration (MySQL/PostgreSQL)
+- Social sentiment analysis
+- Network centrality metrics
+- Real-time network updates
+
+---
+
+## Learning Outcomes
+
+This project demonstrates practical applications of:
+
+- Data Structures and Algorithms
+- Graph Theory
+- Social Network Analysis
+- Object-Oriented Programming in C++
+- File Handling
+- Algorithm Design
+- Network Analytics
+
